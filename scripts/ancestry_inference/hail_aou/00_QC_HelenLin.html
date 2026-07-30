@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Jupyter Notebook — generated with runcell</title>
+<meta content="Exported with runcell — convert .ipynb notebooks to HTML or PDF anytime at runcell.dev." name="description"/>
+<meta content="runcell" name="generator"/>
+<style>
+        :root {
+            --jp-code-font-family: 'SFMono-Regular', Menlo, Consolas, 'Liberation Mono', monospace;
+            --jp-content-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            --jp-cell-prompt-width: 64px;
+            --jp-input-prompt-color: #307fc1;
+            --jp-output-prompt-color: #bf5b3d;
+            --jp-cell-input-bg: #f7f7f7;
+            --jp-layout-color0: #ffffff;
+            --jp-layout-color1: #f7f7f7;
+            --jp-border-color1: #e0e0e0;
+            --jp-content-font-color0: #000000;
+            --jp-content-font-color1: #333333;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--jp-content-font-family);
+            font-size: 14px;
+            line-height: 1.5;
+            color: var(--jp-content-font-color0);
+            background-color: var(--jp-layout-color0);
+            margin: 0;
+            padding: 0;
+        }
+
+        .notebook-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Cell structure */
+        .cell {
+            display: flex;
+            flex-direction: row;
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        .cell-prompt {
+            min-width: var(--jp-cell-prompt-width);
+            width: var(--jp-cell-prompt-width);
+            font-family: var(--jp-code-font-family);
+            font-size: 12px;
+            padding: 10px 8px 10px 0;
+            text-align: right;
+            flex-shrink: 0;
+            user-select: none;
+        }
+
+        .cell-content {
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+        }
+
+        /* Input prompt styling - Jupyter blue */
+        .input-prompt {
+            color: var(--jp-input-prompt-color);
+            font-weight: bold;
+        }
+
+        /* Output prompt styling - Jupyter red/orange */
+        .output-prompt {
+            color: var(--jp-output-prompt-color);
+            font-weight: bold;
+        }
+
+        /* Code cell input area */
+        .input-area {
+            background-color: var(--jp-cell-input-bg);
+            border: 1px solid var(--jp-border-color1);
+            border-radius: 2px;
+            padding: 8px 12px;
+            overflow-x: auto;
+        }
+
+        .input-area pre {
+            margin: 0;
+            font-family: var(--jp-code-font-family);
+            font-size: 13px;
+            line-height: 1.4;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        /* Output area */
+        .output-area {
+            margin-top: 0;
+        }
+
+        .output-wrapper {
+            display: flex;
+            flex-direction: row;
+            margin-top: 4px;
+        }
+
+        .output-content {
+            flex: 1;
+            min-width: 0;
+            padding: 8px 0;
+        }
+
+        .output-content pre {
+            margin: 0;
+            font-family: var(--jp-code-font-family);
+            font-size: 13px;
+            line-height: 1.4;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        /* Stream output (stdout/stderr) */
+        .output-stream {
+            font-family: var(--jp-code-font-family);
+            font-size: 13px;
+            line-height: 1.4;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .output-stderr {
+            background-color: #fdd;
+            padding: 8px 12px;
+            border-radius: 2px;
+        }
+
+        /* Execute result / display data */
+        .output-result {
+            padding: 4px 0;
+        }
+
+        .output-result pre {
+            margin: 0;
+            font-family: var(--jp-code-font-family);
+            font-size: 13px;
+        }
+
+        /* Image output */
+        .output-image {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* HTML output (DataFrames, etc.) */
+        .output-html {
+            overflow-x: auto;
+        }
+
+        .output-html table {
+            border-collapse: collapse;
+            font-size: 13px;
+            font-family: var(--jp-content-font-family);
+        }
+
+        .output-html table th,
+        .output-html table td {
+            border: 1px solid #ddd;
+            padding: 6px 10px;
+            text-align: left;
+        }
+
+        .output-html table th {
+            background-color: #f5f5f5;
+            font-weight: 600;
+        }
+
+        .output-html table tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+
+        /* Error output */
+        .output-error {
+            background-color: #fff0f0;
+            padding: 8px 12px;
+            border-radius: 2px;
+            font-family: var(--jp-code-font-family);
+            font-size: 13px;
+            white-space: pre-wrap;
+        }
+
+        /* Markdown cell styling */
+        .markdown-cell {
+            padding: 10px 0;
+        }
+
+        .markdown-cell h1 {
+            font-size: 2em;
+            font-weight: 600;
+            margin: 0.67em 0;
+            padding-bottom: 0.3em;
+            border-bottom: 1px solid var(--jp-border-color1);
+        }
+
+        .markdown-cell h2 {
+            font-size: 1.5em;
+            font-weight: 600;
+            margin: 0.83em 0;
+            padding-bottom: 0.3em;
+            border-bottom: 1px solid var(--jp-border-color1);
+        }
+
+        .markdown-cell h3 {
+            font-size: 1.25em;
+            font-weight: 600;
+            margin: 1em 0;
+        }
+
+        .markdown-cell h4 {
+            font-size: 1em;
+            font-weight: 600;
+            margin: 1.33em 0;
+        }
+
+        .markdown-cell h5 {
+            font-size: 0.875em;
+            font-weight: 600;
+            margin: 1.67em 0;
+        }
+
+        .markdown-cell h6 {
+            font-size: 0.85em;
+            font-weight: 600;
+            margin: 2.33em 0;
+            color: #6a737d;
+        }
+
+        .markdown-cell p {
+            margin: 0 0 16px 0;
+            line-height: 1.6;
+        }
+
+        .markdown-cell code {
+            font-family: var(--jp-code-font-family);
+            font-size: 85%;
+            background-color: rgba(27, 31, 35, 0.05);
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+        }
+
+        .markdown-cell pre {
+            background-color: var(--jp-cell-input-bg);
+            border: 1px solid var(--jp-border-color1);
+            border-radius: 3px;
+            padding: 16px;
+            overflow-x: auto;
+            font-size: 85%;
+            line-height: 1.45;
+        }
+
+        .markdown-cell pre code {
+            background-color: transparent;
+            padding: 0;
+            border-radius: 0;
+            font-size: 100%;
+        }
+
+        .markdown-cell blockquote {
+            margin: 0 0 16px 0;
+            padding: 0 1em;
+            color: #6a737d;
+            border-left: 4px solid #dfe2e5;
+        }
+
+        .markdown-cell ul,
+        .markdown-cell ol {
+            margin: 0 0 16px 0;
+            padding-left: 2em;
+        }
+
+        .markdown-cell li {
+            margin: 0.25em 0;
+        }
+
+        .markdown-cell a {
+            color: #0366d6;
+            text-decoration: none;
+        }
+
+        .markdown-cell a:hover {
+            text-decoration: underline;
+        }
+
+        .markdown-cell hr {
+            border: 0;
+            border-top: 1px solid var(--jp-border-color1);
+            margin: 24px 0;
+        }
+
+        .markdown-cell img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .markdown-cell table {
+            border-collapse: collapse;
+            margin: 0 0 16px 0;
+        }
+
+        .markdown-cell table th,
+        .markdown-cell table td {
+            border: 1px solid #dfe2e5;
+            padding: 6px 13px;
+        }
+
+        .markdown-cell table th {
+            font-weight: 600;
+            background-color: #f6f8fa;
+        }
+
+        .markdown-cell table tr:nth-child(2n) {
+            background-color: #f6f8fa;
+        }
+
+        /* Raw cell styling */
+        .raw-cell {
+            background-color: var(--jp-layout-color1);
+            border: 1px solid var(--jp-border-color1);
+            border-radius: 2px;
+            padding: 8px 12px;
+            font-family: var(--jp-code-font-family);
+            font-size: 13px;
+            white-space: pre-wrap;
+        }
+
+        /* Empty prompt placeholder */
+        .prompt-empty {
+            color: transparent;
+        }
+
+        .export-footer {
+            margin-top: 32px;
+            padding-top: 16px;
+            border-top: 1px solid var(--jp-border-color1);
+            color: #555;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        .export-footer a {
+            color: #0366d6;
+            text-decoration: none;
+        }
+
+        .export-footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="notebook-container">
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [1]:</div>
+<div class="cell-content">
+<div class="input-area"><pre>## import packages
+from datetime import datetime
+import os
+import pandas as pd
+import hail as hl</pre></div>
+<div class="output-area">
+<div class="output-wrapper">
+<div class="cell-prompt output-prompt"></div>
+<div class="output-content">
+<div class="output-html"> <style>
+        .bk-notebook-logo {
+            display: block;
+            width: 20px;
+            height: 20px;
+            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAOkSURBVDiNjZRtaJVlGMd/1/08zzln5zjP1LWcU9N0NkN8m2CYjpgQYQXqSs0I84OLIC0hkEKoPtiH3gmKoiJDU7QpLgoLjLIQCpEsNJ1vqUOdO7ppbuec5+V+rj4ctwzd8IIbbi6u+8f1539dt3A78eXC7QizUF7gyV1fD1Yqg4JWz84yffhm0qkFqBogB9rM8tZdtwVsPUhWhGcFJngGeWrPzHm5oaMmkfEg1usvLFyc8jLRqDOMru7AyC8saQr7GG7f5fvDeH7Ej8CM66nIF+8yngt6HWaKh7k49Soy9nXurCi1o3qUbS3zWfrYeQDTB/Qj6kX6Ybhw4B+bOYoLKCC9H3Nu/leUTZ1JdRWkkn2ldcCamzrcf47KKXdAJllSlxAOkRgyHsGC/zRday5Qld9DyoM4/q/rUoy/CXh3jzOu3bHUVZeU+DEn8FInkPBFlu3+nW3Nw0mk6vCDiWg8CeJaxEwuHS3+z5RgY+YBR6V1Z1nxSOfoaPa4LASWxxdNp+VWTk7+4vzaou8v8PN+xo+KY2xsw6une2frhw05CTYOmQvsEhjhWjn0bmXPjpE1+kplmmkP3suftwTubK9Vq22qKmrBhpY4jvd5afdRA3wGjFAgcnTK2s4hY0/GPNIb0nErGMCRxWOOX64Z8RAC4oCXdklmEvcL8o0BfkNK4lUg9HTl+oPlQxdNo3Mg4Nv175e/1LDGzZen30MEjRUtmXSfiTVu1kK8W4txyV6BMKlbgk3lMwYCiusNy9fVfvvwMxv8Ynl6vxoByANLTWplvuj/nF9m2+PDtt1eiHPBr1oIfhCChQMBw6Aw0UulqTKZdfVvfG7VcfIqLG9bcldL/+pdWTLxLUy8Qq38heUIjh4XlzZxzQm19lLFlr8vdQ97rjZVOLf8nclzckbcD4wxXMidpX30sFd37Fv/GtwwhzhxGVAprjbg0gCAEeIgwCZyTV2Z1REEW8O4py0wsjeloKoMr6iCY6dP92H6Vw/oTyICIthibxjm/DfN9lVz8IqtqKYLUXfoKVMVQVVJOElGjrnnUt9T9wbgp8AyYKaGlqingHZU/uG2NTZSVqwHQTWkx9hxjkpWDaCg6Ckj5qebgBVbT3V3NNXMSiWSDdGV3hrtzla7J+duwPOToIg42ChPQOQjspnSlp1V+Gjdged7+8UN5CRAV7a5EdFNwCjEaBR27b3W890TE7g24NAP/mMDXRWrGoFPQI9ls/MWO2dWFAar/xcOIImbbpA3zgAAAABJRU5ErkJggg==);
+        }
+    </style>
+<div>
+<a class="bk-notebook-logo" href="https://bokeh.org" target="_blank"></a>
+<span id="bab34c05-aaea-4588-a31e-11c7cd3b3ed3">Loading BokehJS ...</span>
+</div>
+</div>
+</div>
+</div>
+<div class="output-wrapper">
+<div class="cell-prompt output-prompt"></div>
+<div class="output-content">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [2]:</div>
+<div class="cell-content">
+<div class="input-area"><pre>## set up hail
+hl.init(default_reference = "GRCh38")</pre></div>
+<div class="output-area">
+<div class="output-wrapper">
+<div class="cell-prompt output-prompt"></div>
+<div class="output-content">
+<div class="output-stream output-stderr">/opt/conda/lib/python3.10/site-packages/hail/context.py:350: UserWarning:
+
+Using hl.init with a default_reference argument is deprecated. To set a default reference genome after initializing hail, call `hl.default_reference` with an argument to set the default reference genome.
+
+/opt/conda/lib/python3.10/site-packages/hailtop/aiocloud/aiogoogle/user_config.py:43: UserWarning:
+
+Reading spark-defaults.conf to determine GCS requester pays configuration. This is deprecated. Please use `hailctl config set gcs_requester_pays/project` and `hailctl config set gcs_requester_pays/buckets`.
+
+Running on Apache Spark version 3.5.3
+SparkUI available at http://all-of-us-11150-m.us-central1-c.c.terra-vpc-sc-29c08f33.internal:44693
+Welcome to
+     __  __     &lt;&gt;__
+    / /_/ /__  __/ /
+   / __  / _ `/ / /
+  /_/ /_/\_,_/_/_/   version 0.2.134-952ae203dbbe
+LOGGING: writing to /home/jupyter/workspaces/smiandcardiometabolictraits/hail-20251111-1636-0.2.134-952ae203dbbe.log
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [3]:</div>
+<div class="cell-content">
+<div class="input-area"><pre>## get the workspace bucket
+bucket = os.getenv("WORKSPACE_BUCKET")
+bucket</pre></div>
+<div class="output-area">
+<div class="output-wrapper">
+<div class="cell-prompt output-prompt">Out[3]:</div>
+<div class="output-content">
+<div class="output-result"><pre>'{bucket}'</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [4]:</div>
+<div class="cell-content">
+<div class="input-area"><pre>mt_path = os.getenv("WGS_ACAF_THRESHOLD_MULTI_HAIL_PATH")</pre></div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [5]:</div>
+<div class="cell-content">
+<div class="input-area"><pre>mt = hl.read_matrix_table(mt_path)</pre></div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [6]:</div>
+<div class="cell-content">
+<div class="input-area"><pre>mt.count()</pre></div>
+<div class="output-area">
+<div class="output-wrapper">
+<div class="cell-prompt output-prompt">Out[6]:</div>
+<div class="output-content">
+<div class="output-result"><pre>(56993186, 414830)</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [6]:</div>
+<div class="cell-content">
+<div class="input-area"><pre>mt.show()</pre></div>
+<div class="output-area">
+<div class="output-wrapper">
+<div class="cell-prompt output-prompt"></div>
+<div class="output-content">
+<div class="output-stream output-stderr">[Stage 0:=============================&gt;                             (2 + 2) / 4]
+</div>
+</div>
+</div>
+<div class="output-wrapper">
+<div class="cell-prompt output-prompt"></div>
+<div class="output-content">
+<div class="output-html"><table><thead><tr><td colspan="1" style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; "><div style="text-align: left;"></div></td><td colspan="1" style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; "><div style="text-align: left;"></div></td></tr><tr><td colspan="1" style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; "><div style="text-align: left;border-bottom: solid 2px #000; padding-bottom: 5px">locus</div></td><td colspan="1" style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; "><div style="text-align: left;border-bottom: solid 2px #000; padding-bottom: 5px">alleles</div></td></tr><tr><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; text-align: left;">locus&lt;GRCh38&gt;</td><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; text-align: left;">array&lt;str&gt;</td></tr>
+</thead><tbody><tr><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">chr1:10061</td><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">["T","A","TAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCC","TAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCAACCCTAACCCTAACCCTAACCCTAACCCTAACCC"]</td></tr>
+<tr><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">chr1:10085</td><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">["T","A","G","TAACCCTAACCCTAACCCTAACCC","TAACCCTAACCCTAACCCTAACCCAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCC"]</td></tr>
+<tr><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">chr1:10108</td><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">["CAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCCTAACCCTAACCCTAACCCTAACCCTAACCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCCTAACCCTAACCCTAAACCCTA","C","CAAAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCCTAACCCTAACCCTAACCCTAACCCTAACCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCCTAACCCTAACCCTAAACCCTA","CAAACCCAAACCCAAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCCTAACCCTAACCCTAACCCTAACCCTAACCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCCTAACCCTAACCCTAAACCCTA","CAAACCCAAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCCTAACCCTAACCCTAACCCTAACCCTAACCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCCTAACCCTAACCCTAAACCCTA","CAAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCCTAACCCTAACCCTAACCCTAACCCTAACCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCCTAACCCTAACCCTAAACCCTA","CAACCCTAACCCTAACCCTAACCCTAACCCCTAACCCTAACCCTAACCCTAACCCTAACCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCCTAACCCTAACCCTAAACCCTA","CAACCCTAACCCTAACCCTAACCCTAACCCTAACCCCTAACCCTAACCCTAACCCTAACCCTAACCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCCTAACCCTAACCCTAAACCCTA","CAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCCTAACCCTAACCCTAAACCCTA","CACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCCTAACCCTAACCCTAACCCTAACCCTAACCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCCTAACCCTAACCCTAAACCCTA","TAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCCTAACCCTAACCCTAACCCTAACCCTAACCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCCTAACCCTAACCCTAAACCCTA"]</td></tr>
+<tr><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">chr1:10111</td><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">["CCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCCTAACCCTAACCCTAACCCTAACCCTAA","ACCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCCTAACCCTAACCCTAACCCTAACCCTAA","C","CAACCCTAACCCTAACCCTAACCCTAACCCTAACCCCTAACCCTAACCCTAACCCTAACCCTAA","CCCCTAACCCTAACCCTAACCCTAACCCTAACCCCTAACCCTAACCCTAACCCTAACCCTAA","TCCTAACCCTAACCCTAACCCTAACCCTAACCCTAACCCCTAACCCTAACCCTAACCCTAACCCTAA"]</td></tr>
+<tr><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">chr1:10114</td><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">["TAACCC","AAACCC","CAACCC","GAACCC","T","TAACCCAACCC","TACCC"]</td></tr>
+<tr><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">chr1:10117</td><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">["CCCTAACCCTAACCCTAACCCTAACCCTAACCCCTAACCCTAACCCTAACCCTAACCCTAA","ACCTAACCCTAACCCTAACCCTAACCCTAACCCCTAACCCTAACCCTAACCCTAACCCTAA","C","CAACCCTAACCCTAACCCTAACCCTAACCCCTAACCCTAACCCTAACCCTAACCCTAA","CACCCTAACCCTAACCCTAACCCTAACCCCTAACCCTAACCCTAACCCTAACCCTAA","CCCCTAACCCCTAACCCTAACCCTAACCCTAACCCTAA","CCCCTAACCCTAACCCCTAACCCTAACCCTAACCCTAACCCTAA","CCCCTAACCCTAACCCTAACCCTAACCCCTAACCCTAACCCTAACCCTAACCCTAA","GCCTAACCCTAACCCTAACCCTAACCCTAACCCCTAACCCTAACCCTAACCCTAACCCTAA"]</td></tr>
+<tr><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">chr1:10119</td><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">["CTAACCCTAACCCT","ATAACCCTAACCCT","C","CAACCCTAACCCT","GTAACCCTAACCCT"]</td></tr>
+<tr><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">chr1:10120</td><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">["TAACCC","AAACCC","CAACCC","GAACCC","T","TACCC","TC"]</td></tr>
+<tr><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">chr1:10125</td><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">["CT","AT","C","CCTT","TT"]</td></tr>
+<tr><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">chr1:10126</td><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">["TAACCC","AAACCC","CAACCC","GAACCC","T","TAAACCC","TACCC","TC"]</td></tr>
+</tbody></table><p style="background: #fdd; padding: 0.4em;">showing top 10 rows</p>
+<p style="background: #fdd; padding: 0.4em;">showing the first 0 of 414830 columns</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell cell-markdown">
+<div class="cell-prompt prompt-empty"> </div>
+<div class="cell-content">
+<div class="markdown-cell"><h1>Variant QC</h1></div>
+</div>
+</div>
+<div class="cell cell-markdown">
+<div class="cell-prompt prompt-empty"> </div>
+<div class="cell-content">
+<div class="markdown-cell">Variant qc - missingness &lt; 10%, biallelic variants</div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [6]:</div>
+<div class="cell-content">
+<div class="input-area"><pre>from datetime import datetime
+start = datetime.now()</pre></div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [7]:</div>
+<div class="cell-content">
+<div class="input-area"><pre>mt_filtered = mt.filter_rows(
+    # Keep rows with call rate ≥ 0.90 and biallelic
+    (hl.agg.count_where(hl.is_defined(mt.GT)) / mt.count_cols() &gt;= 0.90) &amp;
+    (hl.len(mt.alleles) == 2) &amp;
+    (hl.is_snp(mt.alleles[0], mt.alleles[1]))
+)
+
+##filter dataset so that non-biallelic variants are fully kicked out
+loci = mt_filtered.rows()
+loci = loci.group_by(*loci.key).aggregate(n = hl.agg.count())
+loci = loci.filter(loci.n &gt; 1)
+mt_biallelic_no_ba = mt_filtered.anti_join_rows(loci)</pre></div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [8]:</div>
+<div class="cell-content">
+<div class="input-area"><pre># select desired cols for output 
+mt_biallelic_no_ba = mt_biallelic_no_ba.select_rows(filters = mt_biallelic_no_ba.filters)
+mt_biallelic_no_ba.describe()</pre></div>
+<div class="output-area">
+<div class="output-wrapper">
+<div class="cell-prompt output-prompt"></div>
+<div class="output-content">
+<div class="output-stream">----------------------------------------
+Global fields:
+    None
+----------------------------------------
+Column fields:
+    's': str
+----------------------------------------
+Row fields:
+    'locus': locus&lt;GRCh38&gt;
+    'alleles': array&lt;str&gt;
+    'filters': set&lt;str&gt;
+----------------------------------------
+Entry fields:
+    'GQ': int32
+    'PS': int64
+    'RGQ': int32
+    'FT': str
+    'AD': array&lt;int32&gt;
+    'GT': call
+----------------------------------------
+Column key: ['s']
+Row key: ['locus', 'alleles']
+----------------------------------------
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [ ]:</div>
+<div class="cell-content">
+<div class="input-area"><pre>mt_biallelic_no_ba.rows().select().write(f'{bucket}/data/qc_var_v8.ht', overwrite=True)</pre></div>
+<div class="output-area">
+<div class="output-wrapper">
+<div class="cell-prompt output-prompt"></div>
+<div class="output-content">
+<div class="output-stream output-stderr">[Stage 0:============================================&gt;  (138341 + 160) / 145192]
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [ ]:</div>
+<div class="cell-content">
+<div class="input-area"><pre>stop = datetime.now()
+str(stop-start)</pre></div>
+</div>
+</div>
+<div class="cell cell-markdown">
+<div class="cell-prompt prompt-empty"> </div>
+<div class="cell-content">
+<div class="markdown-cell">15 hr?</div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [6]:</div>
+<div class="cell-content">
+<div class="input-area"><pre>qc_var_v8 = hl.read_table(f'{bucket}/data/qc_var_v8.ht')
+print(f'{qc_var_v8.count()} variants passing QC')</pre></div>
+<div class="output-area">
+<div class="output-wrapper">
+<div class="cell-prompt output-prompt"></div>
+<div class="output-content">
+<div class="output-stream">30567187 variants passing QC
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [12]:</div>
+<div class="cell-content">
+<div class="input-area"><pre>qc_var_v8.describe()</pre></div>
+<div class="output-area">
+<div class="output-wrapper">
+<div class="cell-prompt output-prompt"></div>
+<div class="output-content">
+<div class="output-stream">----------------------------------------
+Global fields:
+    None
+----------------------------------------
+Row fields:
+    'locus': locus&lt;GRCh38&gt; 
+    'alleles': array&lt;str&gt; 
+----------------------------------------
+Key: ['locus', 'alleles']
+----------------------------------------
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell cell-markdown">
+<div class="cell-prompt prompt-empty"> </div>
+<div class="cell-content">
+<div class="markdown-cell"><h1>Sample QC</h1></div>
+</div>
+</div>
+<div class="cell cell-markdown">
+<div class="cell-prompt prompt-empty"> </div>
+<div class="cell-content">
+<div class="markdown-cell">Sample qc - missingness &lt; 10%, unrelated samples</div>
+</div>
+</div>
+<div class="cell cell-markdown">
+<div class="cell-prompt prompt-empty"> </div>
+<div class="cell-content">
+<div class="markdown-cell">I begin with raw mt instead of mt_var_qc for sample qc to avoid extra step of computation</div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [7]:</div>
+<div class="cell-content">
+<div class="input-area"><pre># filter to the passing variants
+#mt_var_qc = mt.semi_join_rows(qc_var_v8)  </pre></div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [6]:</div>
+<div class="cell-content">
+<div class="input-area"><pre>from datetime import datetime
+start = datetime.now()</pre></div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [7]:</div>
+<div class="cell-content">
+<div class="input-area"><pre>#missingness above 10% for sample
+mt_sam_qc_miss = mt.filter_cols(
+    hl.agg.count_where(hl.is_defined(mt.GT)) / mt.count_rows() &gt;= 0.90
+)</pre></div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [8]:</div>
+<div class="cell-content">
+<div class="input-area"><pre>##use existing relatedness samples to find the information for intersecting microarray data
+related_samples_path = "gs://fc-aou-datasets-controlled/v8/wgs/short_read/snpindel/aux/relatedness/relatedness_flagged_samples.tsv"
+related_remove = hl.import_table(related_samples_path,
+                                 types={"sample_id":"tstr"},
+                                 key="sample_id")
+
+related_remove.count()</pre></div>
+<div class="output-area">
+<div class="output-wrapper">
+<div class="cell-prompt output-prompt"></div>
+<div class="output-content">
+<div class="output-stream output-stderr">[Stage 2:&gt;                                                          (0 + 1) / 1]
+</div>
+</div>
+</div>
+<div class="output-wrapper">
+<div class="cell-prompt output-prompt">Out[8]:</div>
+<div class="output-content">
+<div class="output-result"><pre>30584</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [9]:</div>
+<div class="cell-content">
+<div class="input-area"><pre>mt_sam_fin = mt_sam_qc_miss.anti_join_cols(related_remove.key_by('sample_id'))</pre></div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [10]:</div>
+<div class="cell-content">
+<div class="input-area"><pre>mt_sam_fin.describe()</pre></div>
+<div class="output-area">
+<div class="output-wrapper">
+<div class="cell-prompt output-prompt"></div>
+<div class="output-content">
+<div class="output-stream">----------------------------------------
+Global fields:
+    None
+----------------------------------------
+Column fields:
+    's': str
+----------------------------------------
+Row fields:
+    'locus': locus&lt;GRCh38&gt;
+    'alleles': array&lt;str&gt;
+    'filters': set&lt;str&gt;
+    'variant_qc': struct {
+        gq_stats: struct {
+            mean: float64, 
+            stdev: float64, 
+            min: float64, 
+            max: float64
+        }, 
+        call_rate: float64, 
+        n_called: int64, 
+        n_not_called: int64, 
+        n_filtered: int64, 
+        n_het: int64, 
+        n_non_ref: int64, 
+        het_freq_hwe: float64, 
+        p_value_hwe: float64, 
+        p_value_excess_het: float64
+    }
+    'info': struct {
+        AC: array&lt;int32&gt;, 
+        AF: array&lt;float64&gt;, 
+        AN: int32, 
+        homozygote_count: array&lt;int32&gt;
+    }
+----------------------------------------
+Entry fields:
+    'GQ': int32
+    'PS': int64
+    'RGQ': int32
+    'FT': str
+    'AD': array&lt;int32&gt;
+    'GT': call
+----------------------------------------
+Column key: ['s']
+Row key: ['locus', 'alleles']
+----------------------------------------
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [11]:</div>
+<div class="cell-content">
+<div class="input-area"><pre>mt_sam_fin.cols().select().write(f'{bucket}/data/qc_sam_v8.ht', overwrite=True)</pre></div>
+<div class="output-area">
+<div class="output-wrapper">
+<div class="cell-prompt output-prompt"></div>
+<div class="output-content">
+<div class="output-stream output-stderr">WARNING: An illegal reflective access operation has occurred        (1 + 1) / 2]
+WARNING: Illegal reflective access by org.apache.spark.util.SizeEstimator$ (file:/usr/lib/spark/jars/spark-core_2.12-3.5.3.jar) to field java.nio.charset.Charset.name
+WARNING: Please consider reporting this to the maintainers of org.apache.spark.util.SizeEstimator$
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+[Stage 9:======================================================&gt;(158 + 2) / 160]
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [12]:</div>
+<div class="cell-content">
+<div class="input-area"><pre>stop = datetime.now()
+str(stop-start)</pre></div>
+<div class="output-area">
+<div class="output-wrapper">
+<div class="cell-prompt output-prompt">Out[12]:</div>
+<div class="output-content">
+<div class="output-result"><pre>'9:53:01.094632'</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [13]:</div>
+<div class="cell-content">
+<div class="input-area"><pre>qc_sam_v8 = hl.read_table(f'{bucket}/data/qc_sam_v8.ht')
+print(f'{qc_sam_v8.count()} samples passing QC')</pre></div>
+<div class="output-area">
+<div class="output-wrapper">
+<div class="cell-prompt output-prompt"></div>
+<div class="output-content">
+<div class="output-stream">384244 samples passing QC
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [14]:</div>
+<div class="cell-content">
+<div class="input-area"><pre>qc_sam_v8.describe()</pre></div>
+<div class="output-area">
+<div class="output-wrapper">
+<div class="cell-prompt output-prompt"></div>
+<div class="output-content">
+<div class="output-stream">----------------------------------------
+Global fields:
+    None
+----------------------------------------
+Row fields:
+    's': str 
+----------------------------------------
+Key: ['s']
+----------------------------------------
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [1]:</div>
+<div class="cell-content">
+<div class="input-area"><pre>384244 + 30584</pre></div>
+<div class="output-area">
+<div class="output-wrapper">
+<div class="cell-prompt output-prompt">Out[1]:</div>
+<div class="output-content">
+<div class="output-result"><pre>414828</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell cell-markdown">
+<div class="cell-prompt prompt-empty"> </div>
+<div class="cell-content">
+<div class="markdown-cell"><h1>Check again</h1></div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [ ]:</div>
+<div class="cell-content">
+<div class="input-area"><pre># copy QC'd lists to shared lab workspace bucket ## slow
+#!gsutil -m cp -r {bucket}/data/qc_var_v8.ht {bucket}/data/
+#!gsutil -m cp -r {bucket}/data/qc_sam_v8.ht {bucket}/data/</pre></div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [5]:</div>
+<div class="cell-content">
+<div class="input-area"><pre>qc_var_v8 = hl.read_table(f'{bucket}/data/qc_var_v8.ht')
+qc_sam_v8 = hl.read_table(f'{bucket}/data/qc_sam_v8.ht')
+print(f'{qc_var_v8.count()} variants passing QC')
+print(f'{qc_sam_v8.count()} samples passing QC')</pre></div>
+<div class="output-area">
+<div class="output-wrapper">
+<div class="cell-prompt output-prompt"></div>
+<div class="output-content">
+<div class="output-stream">30567187 variants passing QC
+384244 samples passing QC
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [6]:</div>
+<div class="cell-content">
+<div class="input-area"><pre>qc_var_v8.show()</pre></div>
+<div class="output-area">
+<div class="output-wrapper">
+<div class="cell-prompt output-prompt"></div>
+<div class="output-content">
+<div class="output-stream output-stderr">[Stage 0:=============================&gt;                             (2 + 2) / 4]
+</div>
+</div>
+</div>
+<div class="output-wrapper">
+<div class="cell-prompt output-prompt"></div>
+<div class="output-content">
+<div class="output-html"><table><thead><tr><td colspan="1" style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; "><div style="text-align: left;"></div></td><td colspan="1" style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; "><div style="text-align: left;"></div></td></tr><tr><td colspan="1" style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; "><div style="text-align: left;border-bottom: solid 2px #000; padding-bottom: 5px">locus</div></td><td colspan="1" style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; "><div style="text-align: left;border-bottom: solid 2px #000; padding-bottom: 5px">alleles</div></td></tr><tr><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; text-align: left;">locus&lt;GRCh38&gt;</td><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; text-align: left;">array&lt;str&gt;</td></tr>
+</thead><tbody><tr><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">chr1:14487</td><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">["G","A"]</td></tr>
+<tr><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">chr1:14521</td><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">["C","T"]</td></tr>
+<tr><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">chr1:14700</td><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">["G","A"]</td></tr>
+<tr><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">chr1:15038</td><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">["A","C"]</td></tr>
+<tr><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">chr1:15072</td><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">["G","C"]</td></tr>
+<tr><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">chr1:15245</td><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">["C","T"]</td></tr>
+<tr><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">chr1:15248</td><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">["G","C"]</td></tr>
+<tr><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">chr1:15256</td><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">["T","C"]</td></tr>
+<tr><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">chr1:15257</td><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">["G","A"]</td></tr>
+<tr><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">chr1:15273</td><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">["C","T"]</td></tr>
+</tbody></table><p style="background: #fdd; padding: 0.4em;">showing top 10 rows</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [7]:</div>
+<div class="cell-content">
+<div class="input-area"><pre>qc_sam_v8.show()</pre></div>
+<div class="output-area">
+<div class="output-wrapper">
+<div class="cell-prompt output-prompt"></div>
+<div class="output-content">
+<div class="output-html"><table><thead><tr><td colspan="1" style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; "><div style="text-align: left;"></div></td></tr><tr><td colspan="1" style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; "><div style="text-align: left;border-bottom: solid 2px #000; padding-bottom: 5px">s</div></td></tr><tr><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; text-align: left;">str</td></tr>
+</thead><tbody><tr><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">"1000000"</td></tr>
+<tr><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">"1000004"</td></tr>
+<tr><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">"1000033"</td></tr>
+<tr><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">"1000042"</td></tr>
+<tr><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">"1000045"</td></tr>
+<tr><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">"1000059"</td></tr>
+<tr><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">"1000061"</td></tr>
+<tr><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">"1000062"</td></tr>
+<tr><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">"1000070"</td></tr>
+<tr><td style="white-space: nowrap; max-width: 500px; overflow: hidden; text-overflow: ellipsis; ">"1000075"</td></tr>
+</tbody></table><p style="background: #fdd; padding: 0.4em;">showing top 10 rows</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell cell-markdown">
+<div class="cell-prompt prompt-empty"> </div>
+<div class="cell-content">
+<div class="markdown-cell"><h1>Filter and export MT</h1></div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [7]:</div>
+<div class="cell-content">
+<div class="input-area"><pre>from datetime import datetime
+start = datetime.now()</pre></div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [8]:</div>
+<div class="cell-content">
+<div class="input-area"><pre># read QC'ed variants
+qc_var = hl.read_table(f'{bucket}/data/qc_var_v8.ht')</pre></div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [9]:</div>
+<div class="cell-content">
+<div class="input-area"><pre># subset the matrix table 
+qc_mt = mt.semi_join_rows(qc_var)</pre></div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [10]:</div>
+<div class="cell-content">
+<div class="input-area"><pre>qc_mt.describe()</pre></div>
+<div class="output-area">
+<div class="output-wrapper">
+<div class="cell-prompt output-prompt"></div>
+<div class="output-content">
+<div class="output-stream">----------------------------------------
+Global fields:
+    None
+----------------------------------------
+Column fields:
+    's': str
+----------------------------------------
+Row fields:
+    'locus': locus&lt;GRCh38&gt;
+    'alleles': array&lt;str&gt;
+    'filters': set&lt;str&gt;
+    'variant_qc': struct {
+        gq_stats: struct {
+            mean: float64, 
+            stdev: float64, 
+            min: float64, 
+            max: float64
+        }, 
+        call_rate: float64, 
+        n_called: int64, 
+        n_not_called: int64, 
+        n_filtered: int64, 
+        n_het: int64, 
+        n_non_ref: int64, 
+        het_freq_hwe: float64, 
+        p_value_hwe: float64, 
+        p_value_excess_het: float64
+    }
+    'info': struct {
+        AC: array&lt;int32&gt;, 
+        AF: array&lt;float64&gt;, 
+        AN: int32, 
+        homozygote_count: array&lt;int32&gt;
+    }
+----------------------------------------
+Entry fields:
+    'GQ': int32
+    'PS': int64
+    'RGQ': int32
+    'FT': str
+    'AD': array&lt;int32&gt;
+    'GT': call
+----------------------------------------
+Column key: ['s']
+Row key: ['locus', 'alleles']
+----------------------------------------
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [11]:</div>
+<div class="cell-content">
+<div class="input-area"><pre># retrieve relavent fields
+qc_mt = qc_mt.select_rows(rsid = qc_mt.filters)
+qc_mt = qc_mt.select_entries(GT = qc_mt.GT.n_alt_alleles())</pre></div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [12]:</div>
+<div class="cell-content">
+<div class="input-area"><pre>qc_mt.describe()</pre></div>
+<div class="output-area">
+<div class="output-wrapper">
+<div class="cell-prompt output-prompt"></div>
+<div class="output-content">
+<div class="output-stream">----------------------------------------
+Global fields:
+    None
+----------------------------------------
+Column fields:
+    's': str
+----------------------------------------
+Row fields:
+    'locus': locus&lt;GRCh38&gt;
+    'alleles': array&lt;str&gt;
+    'rsid': set&lt;str&gt;
+----------------------------------------
+Entry fields:
+    'GT': int32
+----------------------------------------
+Column key: ['s']
+Row key: ['locus', 'alleles']
+----------------------------------------
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [13]:</div>
+<div class="cell-content">
+<div class="input-area"><pre>qc_mt.write(f"{bucket}/data/QC_GT.mt", overwrite = True)</pre></div>
+<div class="output-area">
+<div class="output-wrapper">
+<div class="cell-prompt output-prompt"></div>
+<div class="output-content">
+<div class="output-stream output-stderr">[Stage 0:================================================&gt;(145191 + 1) / 145192]
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [14]:</div>
+<div class="cell-content">
+<div class="input-area"><pre>stop = datetime.now()
+str(stop-start)</pre></div>
+<div class="output-area">
+<div class="output-wrapper">
+<div class="cell-prompt output-prompt">Out[14]:</div>
+<div class="output-content">
+<div class="output-result"><pre>'11:36:49.813702'</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [4]:</div>
+<div class="cell-content">
+<div class="input-area"><pre>qc_mt = hl.read_matrix_table(f"{bucket}/data/QC_GT.mt")</pre></div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [5]:</div>
+<div class="cell-content">
+<div class="input-area"><pre>qc_mt.count()</pre></div>
+<div class="output-area">
+<div class="output-wrapper">
+<div class="cell-prompt output-prompt">Out[5]:</div>
+<div class="output-content">
+<div class="output-result"><pre>(30567187, 414830)</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell cell-code">
+<div class="cell-prompt input-prompt">In [ ]:</div>
+<div class="cell-content">
+<div class="input-area"><pre></pre></div>
+</div>
+</div>
+</div>
+<footer class="export-footer">
+        Exported with <a href="https://www.runcell.dev/tool/ipynb-to-html">runcell</a> — convert notebooks to HTML or PDF anytime at runcell.dev.
+    </footer>
+</body>
+</html>
