@@ -9770,9 +9770,7 @@ Row fields:
     'pca_features': array&lt;float64&gt; 
     'sex_at_birth': int32 
     'isFemale': int32 
-    'bmi': float64 
     'age': float64 
-    'whr': float64 
     'alt': float64 
     'alp': float64 
 ----------------------------------------
@@ -9793,16 +9791,12 @@ Key: ['research_id']
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Fix type of phenotypes</span>
 <span class="n">mid1</span> <span class="o">=</span> <span class="n">mid1</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
-    <span class="n">bmi</span> <span class="o">=</span> <span class="n">hl</span><span class="o">.</span><span class="n">float</span><span class="p">(</span><span class="n">mid1</span><span class="o">.</span><span class="n">bmi</span><span class="p">),</span>
-    <span class="n">whr</span> <span class="o">=</span> <span class="n">hl</span><span class="o">.</span><span class="n">float</span><span class="p">(</span><span class="n">mid1</span><span class="o">.</span><span class="n">whr</span><span class="p">),</span>
     <span class="n">alt</span> <span class="o">=</span> <span class="n">hl</span><span class="o">.</span><span class="n">float</span><span class="p">(</span><span class="n">mid1</span><span class="o">.</span><span class="n">alt</span><span class="p">),</span>
     <span class="n">alp</span> <span class="o">=</span> <span class="n">hl</span><span class="o">.</span><span class="n">float</span><span class="p">(</span><span class="n">mid1</span><span class="o">.</span><span class="n">alp</span><span class="p">),</span>
     <span class="n">isFemale</span> <span class="o">=</span> <span class="n">hl</span><span class="o">.</span><span class="n">int</span><span class="p">(</span><span class="n">mid1</span><span class="o">.</span><span class="n">isFemale</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
 <span class="p">)</span>
 
 <span class="n">mid2</span> <span class="o">=</span> <span class="n">mid2</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
-    <span class="n">bmi</span> <span class="o">=</span> <span class="n">hl</span><span class="o">.</span><span class="n">float</span><span class="p">(</span><span class="n">mid2</span><span class="o">.</span><span class="n">bmi</span><span class="p">),</span>
-    <span class="n">whr</span> <span class="o">=</span> <span class="n">hl</span><span class="o">.</span><span class="n">float</span><span class="p">(</span><span class="n">mid2</span><span class="o">.</span><span class="n">whr</span><span class="p">),</span>
     <span class="n">alt</span> <span class="o">=</span> <span class="n">hl</span><span class="o">.</span><span class="n">float</span><span class="p">(</span><span class="n">mid2</span><span class="o">.</span><span class="n">alt</span><span class="p">),</span>
     <span class="n">alp</span> <span class="o">=</span> <span class="n">hl</span><span class="o">.</span><span class="n">float</span><span class="p">(</span><span class="n">mid2</span><span class="o">.</span><span class="n">alp</span><span class="p">),</span>
     <span class="n">isFemale</span> <span class="o">=</span> <span class="n">hl</span><span class="o">.</span><span class="n">int</span><span class="p">(</span><span class="n">mid2</span><span class="o">.</span><span class="n">isFemale</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
@@ -9940,10 +9934,10 @@ Index:
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Annotate mt with phenotypes</span>
-<span class="n">mt1</span> <span class="o">=</span> <span class="n">mt1</span><span class="o">.</span><span class="n">annotate_cols</span><span class="p">(</span><span class="n">pheno</span><span class="o">=</span><span class="n">mid1</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">"age"</span><span class="p">,</span> <span class="s2">"isFemale"</span><span class="p">,</span> <span class="s2">"bmi"</span><span class="p">,</span> <span class="s2">"whr"</span><span class="p">,</span> <span class="s2">"alt"</span><span class="p">,</span> <span class="s2">"alp"</span><span class="p">)[</span><span class="n">mt1</span><span class="o">.</span><span class="n">s</span><span class="p">])</span>
+<span class="n">mt1</span> <span class="o">=</span> <span class="n">mt1</span><span class="o">.</span><span class="n">annotate_cols</span><span class="p">(</span><span class="n">pheno</span><span class="o">=</span><span class="n">mid1</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">"age"</span><span class="p">,</span> <span class="s2">"isFemale"</span><span class="p">,</span> <span class="s2">"alt"</span><span class="p">,</span> <span class="s2">"alp"</span><span class="p">)[</span><span class="n">mt1</span><span class="o">.</span><span class="n">s</span><span class="p">])</span>
 <span class="n">mt1</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
 
-<span class="n">mt2</span> <span class="o">=</span> <span class="n">mt2</span><span class="o">.</span><span class="n">annotate_cols</span><span class="p">(</span><span class="n">pheno</span><span class="o">=</span><span class="n">mid2</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">"age"</span><span class="p">,</span> <span class="s2">"isFemale"</span><span class="p">,</span> <span class="s2">"bmi"</span><span class="p">,</span> <span class="s2">"whr"</span><span class="p">,</span> <span class="s2">"alt"</span><span class="p">,</span> <span class="s2">"alp"</span><span class="p">)[</span><span class="n">mt2</span><span class="o">.</span><span class="n">s</span><span class="p">])</span>
+<span class="n">mt2</span> <span class="o">=</span> <span class="n">mt2</span><span class="o">.</span><span class="n">annotate_cols</span><span class="p">(</span><span class="n">pheno</span><span class="o">=</span><span class="n">mid2</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">"age"</span><span class="p">,</span> <span class="s2">"isFemale"</span><span class="p">,</span> <span class="s2">"alt"</span><span class="p">,</span> <span class="s2">"alp"</span><span class="p">)[</span><span class="n">mt2</span><span class="o">.</span><span class="n">s</span><span class="p">])</span>
 <span class="n">mt2</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -9967,8 +9961,6 @@ Column fields:
     'pheno': struct {
         age: float64, 
         isFemale: bool, 
-        bmi: float64, 
-        whr: float64, 
         alt: float64, 
         alp: float64
     }
@@ -9994,8 +9986,6 @@ Column fields:
     'pheno': struct {
         age: float64, 
         isFemale: bool, 
-        bmi: float64, 
-        whr: float64, 
         alt: float64, 
         alp: float64
     }
@@ -10158,13 +10148,13 @@ FINISHED in 0.31 minutes
 <div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># BMI, ALT, ALP</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># ALT, ALP</span>
 <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 
 <span class="n">covs</span> <span class="o">=</span> <span class="n">resolve_covariates</span><span class="p">(</span><span class="n">mt1</span><span class="p">,</span> <span class="p">[</span><span class="s1">'age'</span><span class="p">,</span> <span class="s1">'isFemale'</span><span class="p">],</span> <span class="mi">7</span><span class="p">)</span>
 
 <span class="n">gwas1</span> <span class="o">=</span> <span class="n">hl</span><span class="o">.</span><span class="n">linear_regression_rows</span><span class="p">(</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="p">[[</span><span class="n">mt1</span><span class="o">.</span><span class="n">pheno</span><span class="o">.</span><span class="n">bmi</span><span class="p">],[</span><span class="n">mt1</span><span class="o">.</span><span class="n">pheno</span><span class="o">.</span><span class="n">alt</span><span class="p">],[</span><span class="n">mt1</span><span class="o">.</span><span class="n">pheno</span><span class="o">.</span><span class="n">alp</span><span class="p">]],</span> 
+    <span class="n">y</span> <span class="o">=</span> <span class="p">[[</span><span class="n">mt1</span><span class="o">.</span><span class="n">pheno</span><span class="o">.</span><span class="n">alt</span><span class="p">],[</span><span class="n">mt1</span><span class="o">.</span><span class="n">pheno</span><span class="o">.</span><span class="n">alp</span><span class="p">]],</span> 
     <span class="n">x</span> <span class="o">=</span> <span class="n">mt1</span><span class="o">.</span><span class="n">GT</span><span class="o">.</span><span class="n">n_alt_alleles</span><span class="p">(),</span>
     <span class="n">covariates</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">]</span> <span class="o">+</span> <span class="n">covs</span><span class="p">)</span>
 
@@ -10269,7 +10259,7 @@ FINISHED in 353.27 minutes
 <span class="n">covs</span> <span class="o">=</span> <span class="n">resolve_covariates</span><span class="p">(</span><span class="n">mt2</span><span class="p">,</span> <span class="p">[</span><span class="s1">'age'</span><span class="p">,</span> <span class="s1">'isFemale'</span><span class="p">],</span> <span class="mi">7</span><span class="p">)</span>
 
 <span class="n">gwas2</span> <span class="o">=</span> <span class="n">hl</span><span class="o">.</span><span class="n">linear_regression_rows</span><span class="p">(</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="p">[[</span><span class="n">mt2</span><span class="o">.</span><span class="n">pheno</span><span class="o">.</span><span class="n">bmi</span><span class="p">],[</span><span class="n">mt2</span><span class="o">.</span><span class="n">pheno</span><span class="o">.</span><span class="n">alt</span><span class="p">],[</span><span class="n">mt2</span><span class="o">.</span><span class="n">pheno</span><span class="o">.</span><span class="n">alp</span><span class="p">]],</span> 
+    <span class="n">y</span> <span class="o">=</span> <span class="p">[[</span><span class="n">mt2</span><span class="o">.</span><span class="n">pheno</span><span class="o">.</span><span class="n">alt</span><span class="p">],[</span><span class="n">mt2</span><span class="o">.</span><span class="n">pheno</span><span class="o">.</span><span class="n">alp</span><span class="p">]],</span> 
     <span class="n">x</span> <span class="o">=</span> <span class="n">mt2</span><span class="o">.</span><span class="n">GT</span><span class="o">.</span><span class="n">n_alt_alleles</span><span class="p">(),</span>
     <span class="n">covariates</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">]</span> <span class="o">+</span> <span class="n">covs</span><span class="p">)</span>
 
@@ -10365,318 +10355,8 @@ FINISHED in 341.49 minutes
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="WHRadjBMI">WHRadjBMI<a class="anchor-link" href="#WHRadjBMI">¶</a></h2>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Add BMI as a covariate</span>
-<span class="n">pheno</span><span class="o">=</span><span class="s1">'whr'</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">'running GWAS for'</span><span class="o">+</span><span class="n">pheno</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>running GWAS forwhr
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># GWAS for AoU MID</span>
-<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-<span class="n">covs</span><span class="o">=</span><span class="n">resolve_covariates</span><span class="p">(</span><span class="n">mt1</span><span class="p">,</span> <span class="p">[</span><span class="s1">'age'</span><span class="p">,</span> <span class="s1">'isFemale'</span><span class="p">,</span> <span class="s1">'bmi'</span><span class="p">],</span> <span class="mi">7</span><span class="p">)</span>
-<span class="n">gwas1</span> <span class="o">=</span> <span class="n">run_gwas</span><span class="p">(</span><span class="n">mt1</span><span class="p">,</span> <span class="n">pheno</span><span class="p">,</span> <span class="n">covs</span><span class="p">)</span>
-<span class="n">gwas1</span><span class="o">.</span><span class="n">row</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"FINISHED in </span><span class="si">{</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="p">)</span><span class="o">/</span><span class="mi">60</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> minutes"</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>[Stage 35:====================================================&gt;(999 + 1) / 1000]
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>--------------------------------------------------------
-Type:
-        struct {
-        locus: locus&lt;GRCh38&gt;, 
-        alleles: array&lt;str&gt;, 
-        n: int32, 
-        sum_x: float64, 
-        y_transpose_x: float64, 
-        beta: float64, 
-        standard_error: float64, 
-        t_stat: float64, 
-        p_value: float64
-    }
---------------------------------------------------------
-Source:
-    &lt;hail.table.Table object at 0x7f65b29f3c70&gt;
-Index:
-    ['row']
---------------------------------------------------------
-FINISHED in 342.84 minutes
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Save summary stats</span>
-<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-<span class="n">gwas1</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s1">'aou_mid_'</span><span class="o">+</span><span class="n">pheno</span><span class="o">+</span><span class="s1">'_sumstats.tsv'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"FINISHED in </span><span class="si">{</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="p">)</span><span class="o">/</span><span class="mi">60</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> minutes"</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>[Stage 36:===================================================&gt;(990 + 10) / 1000]
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>FINISHED in 0.81 minutes
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># GWAS for New MID</span>
-<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-<span class="n">covs</span><span class="o">=</span><span class="n">resolve_covariates</span><span class="p">(</span><span class="n">mt2</span><span class="p">,</span> <span class="p">[</span><span class="s1">'age'</span><span class="p">,</span> <span class="s1">'isFemale'</span><span class="p">,</span> <span class="s1">'bmi'</span><span class="p">],</span> <span class="mi">7</span><span class="p">)</span>
-<span class="n">gwas2</span> <span class="o">=</span> <span class="n">run_gwas</span><span class="p">(</span><span class="n">mt2</span><span class="p">,</span> <span class="n">pheno</span><span class="p">,</span> <span class="n">covs</span><span class="p">)</span>
-<span class="n">gwas2</span><span class="o">.</span><span class="n">row</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"FINISHED in </span><span class="si">{</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="p">)</span><span class="o">/</span><span class="mi">60</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> minutes"</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>[Stage 40:====================================================&gt;(999 + 1) / 1000]
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>--------------------------------------------------------
-Type:
-        struct {
-        locus: locus&lt;GRCh38&gt;, 
-        alleles: array&lt;str&gt;, 
-        n: int32, 
-        sum_x: float64, 
-        y_transpose_x: float64, 
-        beta: float64, 
-        standard_error: float64, 
-        t_stat: float64, 
-        p_value: float64
-    }
---------------------------------------------------------
-Source:
-    &lt;hail.table.Table object at 0x7f65b29c3850&gt;
-Index:
-    ['row']
---------------------------------------------------------
-FINISHED in 370.76 minutes
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Save summary stats</span>
-<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-<span class="n">gwas2</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="s1">'new_mid_'</span><span class="o">+</span><span class="n">pheno</span><span class="o">+</span><span class="s1">'_sumstats.tsv'</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"FINISHED in </span><span class="si">{</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="p">)</span><span class="o">/</span><span class="mi">60</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> minutes"</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>[Stage 41:====================================================&gt;(999 + 1) / 1000]
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>FINISHED in 0.87 minutes
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="BMI">BMI<a class="anchor-link" href="#BMI">¶</a></h2>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [25]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># pheno='bmi'</span>
-<span class="c1"># print('running GWAS for'+pheno)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [26]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># # GWAS for AoU MID</span>
-<span class="c1"># start = time.time()</span>
-<span class="c1"># covs=resolve_covariates(mt1, ['age', 'isFemale'], 7)</span>
-<span class="c1"># gwas1 = run_gwas(mt1, pheno, covs)</span>
-<span class="c1"># gwas1.row.describe()</span>
-<span class="c1"># print(f"FINISHED in {(time.time() - start)/60:.2f} minutes")</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [27]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># # GWAS for New MID</span>
-<span class="c1"># start = time.time()</span>
-<span class="c1"># covs=resolve_covariates(mt2, ['age', 'isFemale'], 7)</span>
-<span class="c1"># gwas2 = run_gwas(mt2, pheno, covs)</span>
-<span class="c1"># gwas2.row.describe()</span>
-<span class="c1"># print(f"FINISHED in {(time.time() - start)/60:.2f} minutes")</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [28]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># # Save summary stats</span>
-<span class="c1"># start = time.time()</span>
-<span class="c1"># gwas1.export('aou_mid_'+pheno+'_sumstats.tsv')</span>
-<span class="c1"># gwas2.export('new_mid_'+pheno+'_sumstats.tsv')</span>
-<span class="c1"># print(f"FINISHED in {(time.time() - start)/60:.2f} minutes")</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
+
+
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
