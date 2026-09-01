@@ -1,27 +1,29 @@
----
-title: "Reference Panel QC (HGDP-kGP-Almarri)"
-output:
-  rmarkdown::github_document:
-    toc: true
-    toc_depth: 3
-    number_sections: true
----
+Reference Panel QC (HGDP-kGP-Almarri)
+================
 
-Code for building an expanded reference panel for imprived MID genetic ancestry prediction.
-This code merges HGDP+1kGP joint call set (Koenig et al. 2024) with WGS data from seven Middle Eastern countries (Almarri et al. 2021). 
+- [1 Pre-process WGS reference
+  cohorts](#1-pre-process-wgs-reference-cohorts)
+  - [1.1 HGDP-1kGP](#11-hgdp-1kgp)
+  - [1.2 Almarri](#12-almarri)
+- [2 Merge reference cohorts](#2-merge-reference-cohorts)
+- [3 QC after merge](#3-qc-after-merge)
+- [4 Convert to hg37 (for UKBB
+  prediction)](#4-convert-to-hg37-for-ukbb-prediction)
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(eval = FALSE, engine = "bash")
-```
+Code for building an expanded reference panel for imprived MID genetic
+ancestry prediction. This code merges HGDP+1kGP joint call set (Koenig
+et al. 2024) with WGS data from seven Middle Eastern countries (Almarri
+et al. 2021).
 
-# Pre-process WGS reference cohorts
+# 1 Pre-process WGS reference cohorts
 
-## HGDP-1kGP
+## 1.1 HGDP-1kGP
 
-Concatenate per-chromosome VCFs into one file, convert to PLINK format, then run basic
-call-rate QC and remove related/outlier/contaminated samples.
+Concatenate per-chromosome VCFs into one file, convert to PLINK format,
+then run basic call-rate QC and remove related/outlier/contaminated
+samples.
 
-```{bash hgdp1kgp}
+``` bash
 # Variables — set these to your own paths
 plink2=/path/to/plink2
 hgdp1kgp=/path/to/reference_panels/hgdp1kgp/hgdp1kgp
@@ -74,12 +76,12 @@ $plink2 \
 --freq --out ${hgdp1kgp}_unrelated
 ```
 
-## Almarri
+## 1.2 Almarri
 
-Normalize and filter the Almarri VCF, convert to PLINK, then filter on MAF and remove
-duplicate variants.
+Normalize and filter the Almarri VCF, convert to PLINK, then filter on
+MAF and remove duplicate variants.
 
-```{bash almarri}
+``` bash
 plink2=/path/to/plink2
 fasta=/path/to/reference_genomes/b38/Homo_sapiens_assembly38.fasta
 vcf=~/midProject/data/reference/cohorts/almarri2021/phased_variants_merged.vcf.gz
@@ -142,11 +144,12 @@ $plink2 \
 --freq --out ${vcf}_normPASSref01maf
 ```
 
-# Merge reference cohorts
+# 2 Merge reference cohorts
 
-Intersect the SNP lists between cohorts, then merge on the shared variant set.
+Intersect the SNP lists between cohorts, then merge on the shared
+variant set.
 
-```{bash merge}
+``` bash
 plink1=/path/to/plink_v1.9/plink
 plink2=/path/to/plink2
 
@@ -175,12 +178,13 @@ awk -v OFS=" " '/^\[almarri\]/ {$1 = "MID"} {print}' ${cohort}.fam > tmp
 mv tmp ${cohort}.fam
 ```
 
-# QC after merge
+# 3 QC after merge
 
-Remove related individuals, filter to autosomal biallelic SNVs with MAF between 0.05–0.95
-and call rate < 0.1% missing, exclude the MHC region, then LD-prune.
+Remove related individuals, filter to autosomal biallelic SNVs with MAF
+between 0.05–0.95 and call rate \< 0.1% missing, exclude the MHC region,
+then LD-prune.
 
-```{bash post-merge-qc}
+``` bash
 plink1=/path/to/plink_v1.9/plink
 plink2=/path/to/plink2
 
@@ -256,12 +260,12 @@ $plink2 \
 --bfile ${cohort}qc --freq --out ${cohort}qc
 ```
 
-# Convert to hg37 (for UKBB prediction)
+# 4 Convert to hg37 (for UKBB prediction)
 
-Liftover the merged, QC'd panel from hg38 to hg37/hg19 so it's compatible with UK Biobank
-genotype data.
+Liftover the merged, QC’d panel from hg38 to hg37/hg19 so it’s
+compatible with UK Biobank genotype data.
 
-```{bash liftover}
+``` bash
 module load java/jdk-22
 module load bcftools
 

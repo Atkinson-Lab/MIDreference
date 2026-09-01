@@ -1,22 +1,43 @@
----
-title: "UKBB Genetic Ancestry Prediction"
-output:
-  rmarkdown::github_document:
-    toc: true
-    toc_depth: 3
-    number_sections: true
----
+UKBB Genetic Ancestry Prediction
+================
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(eval = FALSE)
-```
+- [1 Intersect the reference with target
+  databases](#1-intersect-the-reference-with-target-databases)
+  - [1.1 Get variant outliers](#11-get-variant-outliers)
+  - [1.2 Exclude outliers](#12-exclude-outliers)
+- [2 Train genetic ancestry RF
+  model](#2-train-genetic-ancestry-rf-model)
+  - [2.1 Perform PCA using plink](#21-perform-pca-using-plink)
+    - [2.1.1 Plot PCA](#211-plot-pca)
+    - [2.1.2 Plot PC loadings and chromosome
+      positions](#212-plot-pc-loadings-and-chromosome-positions)
+  - [2.2 Train RF model](#22-train-rf-model)
+- [3 Genetic ancestry prediction](#3-genetic-ancestry-prediction)
+  - [3.1 UKBB ancestry prediction (hg37
+    plink)](#31-ukbb-ancestry-prediction-hg37-plink)
+  - [3.2 MID ancestry refinement](#32-mid-ancestry-refinement)
+  - [3.3 Centroid distance
+    calculation](#33-centroid-distance-calculation)
+  - [3.4 Plot PCA projection on training
+    data](#34-plot-pca-projection-on-training-data)
+- [4 MID-like set validation](#4-mid-like-set-validation)
+  - [4.1 Compare place of birth](#41-compare-place-of-birth)
+    - [4.1.1 Plot place of birth
+      comparison](#411-plot-place-of-birth-comparison)
+  - [4.2 Compare GWAS](#42-compare-gwas)
+    - [4.2.1 Extract all MID samples (UKBB predictions and new
+      predictions)](#421-extract-all-mid-samples-ukbb-predictions-and-new-predictions)
+    - [4.2.2 Prepare sample files](#422-prepare-sample-files)
+    - [4.2.3 Prepare phenotype file](#423-prepare-phenotype-file)
+    - [4.2.4 Run GWAS](#424-run-gwas)
 
-# Intersect the reference with target databases
+# 1 Intersect the reference with target databases
 
-Extract the reference panel's SNP set from each UKBB imputed chromosome, merge
-chromosomes, and write allele frequencies for the intersected UKBB genotypes.
+Extract the reference panel’s SNP set from each UKBB imputed chromosome,
+merge chromosomes, and write allele frequencies for the intersected UKBB
+genotypes.
 
-```{bash ukbb-intersect}
+``` bash
 plink=/path/to/plink_v1.9/plink
 plink2=/path/to/plink2
 cohort=~/midProject/data/reference/cohorts/training/almarri_hgdp1kgpqc
@@ -52,13 +73,13 @@ $plink2 \
 --out ${path}ukb_imp_v3_${refname}
 ```
 
-## Get variant outliers
+## 1.1 Get variant outliers
 
-Compare allele frequencies between the reference and the UKBB-intersected variant
-set, and flag variants with large frequency differences or rare MAF as outliers
-to exclude (Supplementary Fig. 10).
+Compare allele frequencies between the reference and the
+UKBB-intersected variant set, and flag variants with large frequency
+differences or rare MAF as outliers to exclude (Supplementary Fig. 10).
 
-```{r ukbb-variant-outliers}
+``` r
 library(ggplot2)
 training="almarri_hgdp1kgpqc_hg37"
 pcs=6
@@ -88,11 +109,12 @@ dev.off()
 write.csv(outlier_af, file = paste0("~/midProject/data/cohorts/ukbb/hg37/", test, "_", training, "af_outliers.tsv"), col.names=F, row.names = F, quote = F)
 ```
 
-## Exclude outliers
+## 1.2 Exclude outliers
 
-Remove the flagged variant outliers from the reference panel before running PCA.
+Remove the flagged variant outliers from the reference panel before
+running PCA.
 
-```{bash exclude-outliers}
+``` bash
 # exclude ukbb variant outliers from the reference (Supplementary Fig. 10)
 outliers=~/midProject/data/cohorts/ukbb/hg37/ukb_imp_v3_almarri_hgdp1kgpqc_hg37af_outliers.tsv
 plink2=/path/to/plink2
@@ -110,14 +132,15 @@ $plink \
 --bfile ${cohort}_hg${hg} --exclude $outliers --make-bed --out ${path}ukb_imp_v3_${refname}
 ```
 
-# Train genetic ancestry RF model
+# 2 Train genetic ancestry RF model
 
-## Perform PCA using plink
+## 2.1 Perform PCA using plink
 
-Run PCA on the QC'd, outlier-free reference panel, generating variant weights and
-allele frequencies needed to later project UKBB samples onto the same PC space.
+Run PCA on the QC’d, outlier-free reference panel, generating variant
+weights and allele frequencies needed to later project UKBB samples onto
+the same PC space.
 
-```{bash pca}
+``` bash
 plink2=/path/to/plink2
 hg="_hg37"
 training=~/midProject/data/reference/cohorts/training/almarri_hgdp1kgpqc${hg}af
@@ -137,12 +160,12 @@ $plink2 \
 --out ${output_training}_${pcs}pcs;
 ```
 
-### Plot PCA
+### 2.1.1 Plot PCA
 
-Plot the reference panel's PCs, coloring by population/study, to visually confirm
-the expected population structure.
+Plot the reference panel’s PCs, coloring by population/study, to
+visually confirm the expected population structure.
 
-```{r plot-pca}
+``` r
 library(dplyr)
 library(ggplot2)
 
@@ -204,13 +227,13 @@ plot_pca_projection <- function(pca, first_pc, second_pc) {
 p<- plot_pca_projection(pca, "PC1", "PC2")
 ```
 
-### Plot PC loadings and chromosome positions
+### 2.1.2 Plot PC loadings and chromosome positions
 
-Plot per-variant PC loadings against chromosome position to check for PCs driven
-by localized regions (e.g. inversions or long-range LD) rather than genome-wide
-structure.
+Plot per-variant PC loadings against chromosome position to check for
+PCs driven by localized regions (e.g. inversions or long-range LD)
+rather than genome-wide structure.
 
-```{r plot-pc-loadings}
+``` r
 library(ggplot2)
 library(gridExtra)
 library(dplyr)
@@ -253,16 +276,16 @@ ggsave(filename = paste0("~/midProject/results/figures/", training, "_", pcs,"pc
        plot = grid_plot, width = 12, height = 16, dpi = 300)
 ```
 
-## Train RF model
+## 2.2 Train RF model
 
-Train a random forest classifier on the reference panel's PCs to predict
-population labels, following gnomAD's ancestry-assignment approach.
+Train a random forest classifier on the reference panel’s PCs to predict
+population labels, following gnomAD’s ancestry-assignment approach.
 
 - gnomAD parameters used as reference points:
   - v2: 6 PCs, 0.9 probability threshold (applied on UKBB)
   - v3: 16 PCs, 0.75 probability threshold (applied on AoU)
 
-```{bash train-rf-wrapper}
+``` bash
 train=~/midProject/scripts/analysis/ancestryClassification/02_trainRF.py
 pcs=6
 prob=0.9
@@ -273,7 +296,8 @@ python3.9 $train $scores $prob
 ```
 
 **02_trainRF.py**
-```{python train-rf}
+
+``` python
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import confusion_matrix, classification_report
 from gnomad.sample_qc.ancestry import assign_population_pcs, pc_project
@@ -358,14 +382,14 @@ with open(report_path, "w") as f:
 print(f"5. Evaluation and outputs saved in {(time.time() - start)/60:.2f} minutes.")
 ```
 
-# Genetic ancestry prediction
+# 3 Genetic ancestry prediction
 
-## UKBB ancestry prediction (hg37 plink)
+## 3.1 UKBB ancestry prediction (hg37 plink)
 
-Project UKBB samples onto the reference panel's PC space using `--score`, then run
-the trained RF model to predict ancestry.
+Project UKBB samples onto the reference panel’s PC space using
+`--score`, then run the trained RF model to predict ancestry.
 
-```{bash apply-ukbb}
+``` bash
 plink=/path/to/plink_v1.9/plink
 plink2=/path/to/plink2
 predict=~/midProject/scripts/analysis/ancestryClassification/03_predict.py
@@ -398,11 +422,11 @@ conda activate hail
 
 cd ~/midProject/scripts/analysis/ancestryClassification
 python3.9 $predict ${name_training}_${pcs}pcs $name_test
-
 ```
 
 **03_predict.py (Plink scores)**
-```{python predict}
+
+``` python
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import classification_report, confusion_matrix
@@ -507,14 +531,14 @@ with open(report_path, "w") as f:
     f.write(report)
 ```
 
-## MID ancestry refinement
+## 3.2 MID ancestry refinement
 
-Re-run PCA on predicted-MID UKBB samples alone (unrelated set), project related
-MID samples onto that PC space, then use centroid distance to refine which
-samples are confidently MID (removing residual outliers not caught by the RF
-step).
+Re-run PCA on predicted-MID UKBB samples alone (unrelated set), project
+related MID samples onto that PC space, then use centroid distance to
+refine which samples are confidently MID (removing residual outliers not
+caught by the RF step).
 
-```{bash mid-refinement}
+``` bash
 path=~/midProject/data/cohorts/ukbb/hg37/mid/new_predictions/
 plink=/path/to/plink_v1.9/plink
 plink2=/path/to/plink2
@@ -614,14 +638,14 @@ $plink2 \
 --out ${cohort}_rel${pcs}pcs
 ```
 
-## Centroid distance calculation
+## 3.3 Centroid distance calculation
 
-Compute each sample's distance from the population centroid across the first N
-PCs, and use that distance to iteratively choose a cutoff that excludes outliers
-from the "MID-like" set (functions adapted from the
+Compute each sample’s distance from the population centroid across the
+first N PCs, and use that distance to iteratively choose a cutoff that
+excludes outliers from the “MID-like” set (functions adapted from the
 [UKBB pan-ancestry project](https://github.com/atgu/ukbb_pan_ancestry)).
 
-```{r centroid-distance}
+``` r
 ## STEP2: centroid calculation
 library(RColorBrewer)
 library(cowplot)
@@ -767,12 +791,12 @@ save_pca_plots <- function(pop_name, pop_dist, cutpoint0, cutpoint1, cutpoint2) 
 save_pca_plots('~/midProject/results/figures/new_cutpoint/mid', mid_dist <- pop_ellipse(mid, 5), 30, 9, 3)
 ```
 
-## Plot PCA projection on training data
+## 3.4 Plot PCA projection on training data
 
-Compare the MID samples predicted in this study vs. those predicted directly in
-UKBB, projected onto the reference panel's PCA space.
+Compare the MID samples predicted in this study vs. those predicted
+directly in UKBB, projected onto the reference panel’s PCA space.
 
-```{r plot-pca-projection}
+``` r
 library(dplyr)
 library(ggplot2)
 library(colorspace)
@@ -934,11 +958,11 @@ plot_pca(pca, "PC2", "PC6")
 ggsave(paste0("~/midProject/results/figures/ukbb_cutpoint/pc2pc6mid_", training, pcs, "pc.pdf"), width = 8, height = 6)
 ```
 
-# MID-like set validation
+# 4 MID-like set validation
 
-## Compare place of birth
+## 4.1 Compare place of birth
 
-```{bash compare-birthplace}
+``` bash
 cd ~/midProject/data/cohorts/ukbb/hg37/birth_place 
 newpred=~/midProject/results/raw_outputs/ancestryPredictions/refinedMID7cutoff_ukb_imp_v36pcs.tsv
 ukbbpred=~/midProject/results/raw_outputs/ancestryPredictions/ukb_imp_v3Xalmarri_hgdp1kgpqc_hg37af_6pcs_prob.tsv
@@ -956,12 +980,12 @@ sample=ukbb
 grep -Ff ${sample}mid.txt countryofbirth_nonuk_key_labels.txt | sed "s/ /\t/g" > ${sample}mid_country_nonUK.txt
 ```
 
-### Plot place of birth comparison
+### 4.1.1 Plot place of birth comparison
 
-Map predicted MID samples by self-reported country of birth, comparing UKBB-only,
-this-study-only, and overlapping predictions.
+Map predicted MID samples by self-reported country of birth, comparing
+UKBB-only, this-study-only, and overlapping predictions.
 
-```{r plot-birthplace}
+``` r
 # Load libraries
 library(data.table)
 library(dplyr)
@@ -1136,14 +1160,15 @@ ggsave(
 )
 ```
 
-## Compare GWAS
+## 4.2 Compare GWAS
 
-### Extract all MID samples (UKBB predictions and new predictions)
+### 4.2.1 Extract all MID samples (UKBB predictions and new predictions)
 
-Pool predicted-MID samples across chromosomes, split related/unrelated, run QC
-(call rate, MAF, MHC exclusion, LD pruning) to prepare for downstream GWAS.
+Pool predicted-MID samples across chromosomes, split related/unrelated,
+run QC (call rate, MAF, MHC exclusion, LD pruning) to prepare for
+downstream GWAS.
 
-```{bash extract-mid-samples}
+``` bash
 plink=/path/to/plink_v1.9/plink
 plink2=/path/to/plink2
 hg="_hg37af"
@@ -1220,12 +1245,13 @@ $plink2 --bfile ${cohort}_unrelqc \
   --out ${cohort}_unrelqc
 ```
 
-### Prepare sample files
+### 4.2.2 Prepare sample files
 
-Extract UKBB-only vs. this-study-only MID sample sets from the pooled MID cohort,
-filter by MAF, LD-prune, and compute PCs to use as GWAS covariates.
+Extract UKBB-only vs. this-study-only MID sample sets from the pooled
+MID cohort, filter by MAF, LD-prune, and compute PCs to use as GWAS
+covariates.
 
-```{bash prepare-sample-files}
+``` bash
 cd ~/midProject/scripts/analysis/gwas 
 
 newpred=~/midProject/results/raw_outputs/ancestryPredictions/refinedMID7cutoff_ukb_imp_v36pcs.tsv
@@ -1263,14 +1289,14 @@ $plink2 \
 --out $sample
 ```
 
-### Prepare phenotype file
+### 4.2.3 Prepare phenotype file
 
-Phenotype/covariate field definitions are listed in `phenotypes.txt` (columns:
-row number, UKBB field code, phenotype name, column index in the raw UKBB table).
-Phenotype groups and their associated covariates:
+Phenotype/covariate field definitions are listed in `phenotypes.txt`
+(columns: row number, UKBB field code, phenotype name, column index in
+the raw UKBB table). Phenotype groups and their associated covariates:
 
 | phenotypes | pheno numbers | covariates | cov numbers |
-|---|---|---|---|
+|:---|:---|:---|:---|
 | 01 blood | ph:1,11-15,18-20,22-23,25,28-30,32-33 | sex, age, dilution factor, PCs | ph:2,10,34; PCs |
 | 02 lipids | ph:16,17,21,24,26,27,31 | sex, age, dilution factor, chol medication, insulin, PC | ph:2,10,34; med:2,4; PCs |
 | 03 measurements (Height, BMI) | ph:6,9 | sex, age, PC | ph:2,10; PCs |
@@ -1278,10 +1304,10 @@ Phenotype groups and their associated covariates:
 | 05 self-reported binary | can: 1,2,3,4; ill: 2,3,4 | sex, age, PC | ph:2,10; PCs |
 
 Build the combined phenotype/covariate table, derive medication and
-self-reported-condition binary phenotypes, then split into per-group phenotype
-and covariate files.
+self-reported-condition binary phenotypes, then split into per-group
+phenotype and covariate files.
 
-```{bash prepare-phenotypes}
+``` bash
 cd ~/midProject/scripts/analysis/gwas 
 
 newpred=~/midProject/results/raw_outputs/ancestryPredictions/refinedMID7cutoff_ukb_imp_v36pcs.tsv
@@ -1351,13 +1377,13 @@ paste ${phdir}/03_cov.tsv tmp > ${phdir}/04_cov.tsv
 less ${phdir}/all_samples_pheno.txt | cut -f 1,2,10 > ${phdir}/05_cov.tsv
 ```
 
-### Run GWAS
+### 4.2.4 Run GWAS
 
-For each phenotype group, extract the relevant samples and covariates (adding
-PCs), then run `plink2 --glm` for both the UKBB-predicted and this-study-predicted
-MID sample sets.
+For each phenotype group, extract the relevant samples and covariates
+(adding PCs), then run `plink2 --glm` for both the UKBB-predicted and
+this-study-predicted MID sample sets.
 
-```{bash run-gwas}
+``` bash
 cd ~/midProject/scripts/analysis/gwas 
 plink2=/path/to/plink2
 phdir=~/midProject/data/cohorts/ukbb/phenotypes/

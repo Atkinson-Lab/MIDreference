@@ -1,27 +1,39 @@
----
-title: "Harmonization"
-output:
-  rmarkdown::github_document:
-    toc: true
-    toc_depth: 3
-    number_sections: true
----
+Harmonization
+================
 
-Code for harmonizing multiple genotyped/WGS cohorts into a single dataset.
-Liftover to a common build, per-cohort and merged QC, PCA, ADMIXTURE, Fst between clusters, and annotation of clinically relevant SNPs.
+- [1 Data preparation](#1-data-preparation)
+  - [1.1 Liftover](#11-liftover)
+  - [1.2 QC](#12-qc)
+    - [1.2.1 Individual QC](#121-individual-qc)
+  - [1.3 Merge](#13-merge)
+    - [1.3.1 Merged QC](#131-merged-qc)
+    - [1.3.2 Get MID targeted cohort](#132-get-mid-targeted-cohort)
+    - [1.3.3 Select random/exclude
+      outliers](#133-select-randomexclude-outliers)
+- [2 PCA](#2-pca)
+  - [2.1 Generate PCs using Plink](#21-generate-pcs-using-plink)
+- [3 ADMIXTURE](#3-admixture)
+  - [3.1 Perform ADMIXTURE](#31-perform-admixture)
+- [4 Fst](#4-fst)
+  - [4.1 Fst between k clusters](#41-fst-between-k-clusters)
+- [5 Distribution of clinically relevant
+  SNPs](#5-distribution-of-clinically-relevant-snps)
+  - [5.1 ClinPGx annotation](#51-clinpgx-annotation)
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(eval = FALSE, engine = "bash")
-```
+Code for harmonizing multiple genotyped/WGS cohorts into a single
+dataset. Liftover to a common build, per-cohort and merged QC, PCA,
+ADMIXTURE, Fst between clusters, and annotation of clinically relevant
+SNPs.
 
-# Data preparation
+# 1 Data preparation
 
-## Liftover
+## 1.1 Liftover
 
-Convert each input cohort's PLINK files to VCF, liftover from hg18/hg19 to hg38, then
-convert back to PLINK, appending each lifted cohort's path to a running list.
+Convert each input cohort’s PLINK files to VCF, liftover from hg18/hg19
+to hg38, then convert back to PLINK, appending each lifted cohort’s path
+to a running list.
 
-```{bash liftover}
+``` bash
 # This code performs LiftOver on a list of plink files provided in a $list
 # the final file names are written in the file $cohort
 
@@ -91,14 +103,14 @@ rm ${path}/hg38_${name}.p*
 done < $list
 ```
 
-## QC
+## 1.2 QC
 
-### Individual QC
+### 1.2.1 Individual QC
 
-Per-cohort QC: exclude non-biallelic/duplicate variants, low call-rate variants and
-samples, rare MAF, and HWE outliers.
+Per-cohort QC: exclude non-biallelic/duplicate variants, low call-rate
+variants and samples, rare MAF, and HWE outliers.
 
-```{bash individual-qc}
+``` bash
 plink2=/path/to/plink2
 cohort=~/midProject/data/reference/cohorts/harmonization/allcohorts
 
@@ -147,11 +159,12 @@ $plink2 \
 done < ${cohort}.txt
 ```
 
-## Merge
+## 1.3 Merge
 
-Merge the per-cohort QC'd PLINK files into one dataset, then sort variants.
+Merge the per-cohort QC’d PLINK files into one dataset, then sort
+variants.
 
-```{bash merge}
+``` bash
 plink=/path/to/plink_v1.9/plink
 plink2=/path/to/plink2
 cohort=~/midProject/data/reference/cohorts/harmonization/allcohorts
@@ -189,12 +202,13 @@ wc -l ${cohort}.bim
 #14,323,944 snps
 ```
 
-### Merged QC
+### 1.3.1 Merged QC
 
-QC on the merged dataset (higher thresholds than individual QC, since per-cohort QC
-was already applied), exclude the MHC region, and remove related individuals.
+QC on the merged dataset (higher thresholds than individual QC, since
+per-cohort QC was already applied), exclude the MHC region, and remove
+related individuals.
 
-```{bash merged-qc}
+``` bash
 ## For joined cohort
 # --mind and --geno default is 0.1
 # used higher values as QC has already been performed individually and the number of merged studies is large 
@@ -236,11 +250,12 @@ $plink2 --bfile ${cohort}qc \
 less ${cohort}.fam | cut -f 1 | sed "s/_/\t/g" | cut -f 1 | sed 's/|/\t/g' | sed "s/]/\t/g" | awk '{print $NF}' | sort -u > countries.txt
 ```
 
-### Get MID targeted cohort
+### 1.3.2 Get MID targeted cohort
 
-Subset the merged cohort down to a target set of countries/populations included in at least one MID definition.
+Subset the merged cohort down to a target set of countries/populations
+included in at least one MID definition.
 
-```{bash target-definition}
+``` bash
 #get definitions
 plink2=/path/to/plink2
 cohort=~/midProject/data/reference/cohorts/harmonization/allcohortsqc
@@ -255,14 +270,15 @@ $plink2 \
 --bfile ${targetcohort} --remove ${targetcohort}_outliers.txt --make-bed --out ${targetcohort}
 ```
 
-### Select random/exclude outliers
+### 1.3.3 Select random/exclude outliers
 
-To keep population/country groups from dominating downstream analyses (PCA, ADMIXTURE),
-downsample large groups: cap each broad region at 200 samples, sampling proportionally
-across countries within it.
+To keep population/country groups from dominating downstream analyses
+(PCA, ADMIXTURE), downsample large groups: cap each broad region at 200
+samples, sampling proportionally across countries within it.
 
 **selectrandom.py**
-```{python select-random}
+
+``` python
 import pandas as pd
 import sys
 
@@ -294,11 +310,11 @@ filename = sys.argv[1] + "_random.csv"
 random_sample.to_csv(filename, index=False, header=False, sep = "\t")
 ```
 
-Run the downsampling script, extract the resulting random sample from the unrelated
-merged cohort, and exclude any PCA-flagged outliers from both the random subset and
-the full QC'd cohort.
+Run the downsampling script, extract the resulting random sample from
+the unrelated merged cohort, and exclude any PCA-flagged outliers from
+both the random subset and the full QC’d cohort.
 
-```{bash equal_pops}
+``` bash
 # generate random sample
 cohort=~/midProject/data/reference/cohorts/harmonization/allcohorts
 plink2=/path/to/plink2
@@ -318,14 +334,13 @@ $plink2 \
 #4179 samples
 ```
 
-# PCA
+# 2 PCA
 
-## Generate PCs using Plink
+## 2.1 Generate PCs using Plink
 
-Run PCA on both the target cohort and
-the full harmonized cohort.
+Run PCA on both the target cohort and the full harmonized cohort.
 
-```{bash pca}
+``` bash
 #pca
 cd ~/midProject/results/raw_outputs/pca
 
@@ -348,11 +363,11 @@ $plink \
 --out $output; done
 ```
 
-# ADMIXTURE
+# 3 ADMIXTURE
 
-## Perform ADMIXTURE
+## 3.1 Perform ADMIXTURE
 
-```{bash run-admixture}
+``` bash
 admixture=/path/to/admixture_linux-1.3.0/admixture
 cohort=~/midProject/data/reference/cohorts/harmonization/allcohorts_random
 
@@ -361,18 +376,18 @@ $admixture --cv ${cohort}.bed ${SLURM_ARRAY_TASK_ID};
 
 Extract the cross-validation error for each K from the job logs.
 
-```{bash admixture-cv-error}
+``` bash
 cat admixture-job* | grep "CV error (K=" | sed "s/CV error (K=//g" | sed "s/): /\t/g" | sort -V > ../allcohorts_random_kerror.tsv
 ```
 
-# Fst
+# 4 Fst
 
-## Fst between k clusters
+## 4.1 Fst between k clusters
 
-Compute Fst between the K clusters identified from PCA (clusters generated
-by `Fig02_neighboring_pca_admix.R`).
+Compute Fst between the K clusters identified from PCA (clusters
+generated by `Fig02_neighboring_pca_admix.R`).
 
-```{bash fst}
+``` bash
 cohort=~/midProject/data/reference/cohorts/harmonization/allcohorts_random
 plink=/path/to/plink2
 samples=~/midProject/results/raw_outputs/pca/allcohorts_random.clusters.tsv
@@ -395,14 +410,15 @@ $plink --bfile ${cohort}_strictqc \
 -out ${output}
 ```
 
-# Distribution of clinically relevant SNPs
+# 5 Distribution of clinically relevant SNPs
 
-## ClinPGx annotation
+## 5.1 ClinPGx annotation
 
-Download and reformat the ClinPGx variant annotation set (mapping RefSeq accessions to
-chromosome names), then intersect it with the strictly-QC'd cohort's variant list.
+Download and reformat the ClinPGx variant annotation set (mapping RefSeq
+accessions to chromosome names), then intersect it with the
+strictly-QC’d cohort’s variant list.
 
-```{bash clinpgx-download}
+``` bash
 
 # Download summary annotation
 wget https://api.clinpgx.org/v1/download/file/data/variants.zip
@@ -433,11 +449,10 @@ less $bed | cut -f 2 | sed "s/:/\t/g" > ${name}.snps.tsv
 grep -Ff ${name}.snps.tsv $annotation > ${name}_clinpgx.intersect.txt
 ```
 
-Compute allele frequencies stratified by region, then
-intersect the region frequency tables with the ClinPGx
-variant annotations.
+Compute allele frequencies stratified by region, then intersect the
+region frequency tables with the ClinPGx variant annotations.
 
-```{bash clinpgx-frequencies}
+``` bash
 ## Step 2: Get allele frequency per region
 # AF per regions
 regions=~/midProject/results/raw_outputs/pca/allcohorts_random.regions.tsv
