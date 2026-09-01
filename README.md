@@ -7,7 +7,7 @@ prediction.
 
 ```
 harmonization/
-├── harmonization.Rmd              Description of code used to generate data for figures 1 and 2: 
+├── harmonization.md              Description of code used to generate data for figures 1 and 2: 
 │                                  Harmonize multiple MID cohorts into one dataset:
 │                                  liftover, QC, merge, downsampling, PCA, ADMIXTURE, Fst,
 │                                  and clinically relevant SNP annotation
@@ -19,7 +19,7 @@ harmonization/
 └── plot_fst_heatMap.R             Code used to generate Figure S7
 
 ancestry_inference/
-├── reference_qc.Rmd               Description of code used to build the 
+├── reference_qc.md               Description of code used to build the 
 │                                  expanded reference panel (HGDP-1kGP-Almarri):
 │                                  per-cohort QC, merge, post-merge QC, liftover to hg37
 ├── plink_ukbb/                    Code used for genetic ancestry inference and GWAS in UK Biobank:
